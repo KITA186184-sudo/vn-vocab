@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>ベトナム語単語帳</title>
+
+<!-- PWA: iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="越語単語帳">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjgwIiBmaWxsPSIjMWExYTJlIi8+PHRleHQgeD0iMjU2IiB5PSIzMjAiIGZvbnQtc2l6ZT0iMjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYTc4YmZhIj7wn4e78J+HszwvdGV4dD48dGV4dCB4PSIyNTYiIHk9IjQzMCIgZm9udC1zaXplPSI3MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2E3OGJmYSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIj7ljZjoqp7luLM8L3RleHQ+PC9zdmc+">
+
+<!-- PWA: Android / Chrome -->
+<meta name="theme-color" content="#a78bfa">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIuODmeODiOODiuODoOiqnuWNmOiqnuW4syIsICJzaG9ydF9uYW1lIjogIui2iuiqnuWNmOiqnuW4syIsICJkZXNjcmlwdGlvbiI6ICLjg5njg4jjg4rjg6Doqp4xMTM16Kqe44OV44Op44OD44K344Ol44Kr44O844OJ77yGNOaKnuOCr+OCpOOCuiIsICJzdGFydF91cmwiOiAiLiIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMWExYTJlIiwgInRoZW1lX2NvbG9yIjogIiNhNzhiZmEiLCAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQTFNVElnTlRFeUlqNDhjbVZqZENCM2FXUjBhRDBpTlRFeUlpQm9aV2xuYUhROUlqVXhNaUlnY25nOUlqZ3dJaUJtYVd4c1BTSWpNV0V4WVRKbElpOCtQSFJsZUhRZ2VEMGlNalUySWlCNVBTSXpNakFpSUdadmJuUXRjMmw2WlQwaU1qZ3dJaUIwWlhoMExXRnVZMmh2Y2owaWJXbGtaR3hsSWlCbWFXeHNQU0lqWVRjNFltWmhJajd3bjRlNzhKK0hzend2ZEdWNGRENDhkR1Y0ZENCNFBTSXlOVFlpSUhrOUlqUXpNQ0lnWm05dWRDMXphWHBsUFNJM01pSWdkR1Y0ZEMxaGJtTm9iM0k5SW0xcFpHUnNaU0lnWm1sc2JEMGlJMkUzT0dKbVlTSWdabTl1ZEMxbVlXMXBiSGs5SW5OaGJuTXRjMlZ5YVdZaUlHWnZiblF0ZDJWcFoyaDBQU0ppYjJ4a0lqN2xqWmpvcXA3bHVMTThMM1JsZUhRK1BDOXpkbWMrIiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIn1dfQ==">
+
+<style>
+* { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  font-family: -apple-system, 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: #1a1a2e;
+  color: #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: env(safe-area-inset-top, 12px) 16px env(safe-area-inset-bottom, 16px);
+  height: 100dvh;
+  overflow-y: auto;
+}
+h1 { font-size:1.2rem; color:#a78bfa; margin-bottom:4px; letter-spacing:.05em; }
+.stats { font-size:.75rem; color:#777; margin-bottom:12px; }
+.stats span { color:#a78bfa; font-weight:700; }
+
+/* Install banner */
+#installBanner {
+  display:none;
+  align-items:center;
+  gap:10px;
+  background:#312e81;
+  border:1px solid #4c1d95;
+  border-radius:12px;
+  padding:10px 14px;
+  font-size:.78rem;
+  color:#c4b5fd;
+  margin-bottom:12px;
+  width:100%;
+  max-width:480px;
+}
+#installBanner button {
+  margin-left:auto;
+  background:#a78bfa;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  padding:5px 12px;
+  font-size:.78rem;
+  font-weight:700;
+  cursor:pointer;
+  white-space:nowrap;
+}
+#installBanner .close-btn {
+  background:transparent;
+  color:#888;
+  padding:2px 6px;
+  margin-left:0;
+  font-size:1rem;
+}
+
+/* Mode tabs */
+.mode-tabs { display:flex; gap:8px; margin-bottom:12px; }
+.mode-tab {
+  padding:6px 18px; border-radius:20px;
+  border:1.5px solid #3f3f5e;
+  background:transparent; color:#aaa;
+  cursor:pointer; font-size:.8rem;
+  transition:all .2s;
+  -webkit-appearance:none;
+}
+.mode-tab.active { background:#a78bfa; border-color:#a78bfa; color:#fff; font-weight:700; }
+
+/* Card */
+.card-area {
+  perspective:1000px;
+  width:100%; max-width:480px;
+  height:200px;
+  cursor:pointer;
+  margin-bottom:12px;
+  touch-action:pan-y;
+  user-select:none;
+}
+.card {
+  width:100%; height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform .42s cubic-bezier(.4,2,.6,1);
+}
+.card.flipped { transform:rotateY(180deg); }
+.card-face {
+  position:absolute; width:100%; height:100%;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  border-radius:20px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:24px; text-align:center;
+}
+.card-front {
+  background:linear-gradient(135deg,#312e81,#1e1b4b);
+  border:1.5px solid #4c1d95;
+}
+.card-back {
+  background:linear-gradient(135deg,#065f46,#064e3b);
+  border:1.5px solid #065f46;
+  transform:rotateY(180deg);
+}
+.card-label { font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:#a78bfa; margin-bottom:10px; }
+.card-back .card-label { color:#34d399; }
+.card-word { font-size:1.9rem; font-weight:700; color:#fff; line-height:1.2; margin-bottom:6px; }
+.card-hint { font-size:.68rem; color:#666; margin-top:10px; }
+.card-meaning { font-size:1.1rem; font-weight:600; color:#d1fae5; line-height:1.5; }
+.swipe-hint { font-size:.64rem; color:#555; text-align:center; margin-bottom:8px; }
+
+/* Progress */
+.progress-bar-wrap {
+  width:100%; max-width:480px; height:5px;
+  background:#2d2d4e; border-radius:3px;
+  margin-bottom:12px; overflow:hidden;
+}
+.progress-bar {
+  height:100%;
+  background:linear-gradient(90deg,#a78bfa,#60a5fa);
+  border-radius:3px; transition:width .3s;
+}
+
+/* Controls */
+.controls {
+  display:flex; gap:10px; margin-bottom:10px; align-items:center;
+}
+.btn {
+  padding:11px 22px; border-radius:12px; border:none;
+  font-size:.9rem; font-weight:600;
+  cursor:pointer; transition:all .15s;
+  -webkit-appearance:none;
+}
+.btn:active { transform:scale(.95); }
+.btn-prev { background:#2d2d4e; color:#aaa; }
+.btn-next { background:#a78bfa; color:#fff; }
+
+/* Mark */
+.mark-btns { display:flex; gap:10px; margin-bottom:12px; }
+.btn-known,.btn-unknown {
+  padding:9px 20px; border-radius:10px;
+  font-size:.84rem; font-weight:700;
+  cursor:pointer; transition:all .15s;
+  -webkit-appearance:none;
+}
+.btn-known { background:#065f46; color:#34d399; border:1.5px solid #059669; }
+.btn-unknown { background:#450a0a; color:#f87171; border:1.5px solid #b91c1c; }
+
+/* Options */
+.options { display:flex; gap:7px; flex-wrap:wrap; justify-content:center; margin-bottom:8px; }
+.btn-sm {
+  padding:7px 14px; border-radius:10px;
+  border:1.5px solid #3f3f5e;
+  background:transparent; color:#bbb;
+  font-size:.75rem; cursor:pointer;
+  transition:all .15s;
+  -webkit-appearance:none;
+}
+.btn-sm:active { opacity:.7; }
+.btn-sm.active { background:#312e81; border-color:#a78bfa; color:#a78bfa; }
+
+/* Score */
+.score-row { display:flex; gap:16px; font-size:.75rem; color:#666; }
+.score-row .ok { color:#34d399; }
+.score-row .ng { color:#f87171; }
+
+/* Quiz */
+.quiz-choices {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:9px; width:100%; max-width:480px; margin-bottom:12px;
+}
+.choice-btn {
+  padding:14px 8px; border-radius:12px;
+  border:1.5px solid #3f3f5e;
+  background:#1e1e3a; color:#ddd;
+  font-size:.85rem; cursor:pointer;
+  transition:all .2s; text-align:center;
+  line-height:1.3; -webkit-appearance:none;
+}
+.choice-btn.correct { background:#065f46; border-color:#059669; color:#d1fae5; }
+.choice-btn.wrong { background:#450a0a; border-color:#b91c1c; color:#fca5a5; }
+.choice-btn:disabled { cursor:default; }
+.complete-msg { text-align:center; padding:24px; color:#a78bfa; font-size:1rem; grid-column:1/-1; }
+</style>
+</head>
+<body>
+
+<h1>🇻🇳 ベトナム語単語帳</h1>
+<div class="stats">全 <span id="totalCount">0</span> 語 ｜ <span id="posStr">1</span> / <span id="setCount">0</span></div>
+
+<!-- Install prompt banner -->
+<div id="installBanner">
+  <span>📱 ホーム画面に追加してアプリとして使えます</span>
+  <button id="installBtn">追加</button>
+  <button class="close-btn" onclick="document.getElementById('installBanner').style.display='none'">✕</button>
+</div>
+
+<div class="mode-tabs">
+  <button class="mode-tab active" onclick="setMode('flash')">フラッシュカード</button>
+  <button class="mode-tab" onclick="setMode('quiz')">4択クイズ</button>
+</div>
+
+<!-- Flash -->
+<div id="flashMode">
+  <div class="card-area" id="cardArea" onclick="flipCard()">
+    <div class="card" id="card">
+      <div class="card-face card-front">
+        <div class="card-label">ベトナム語</div>
+        <div class="card-word" id="vnWord">-</div>
+        <div class="card-hint">タップして意味を見る</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="card-label">日本語</div>
+        <div class="card-meaning" id="jpMeaning">-</div>
+      </div>
+    </div>
+  </div>
+  <div class="swipe-hint">← 前の単語　　次の単語 →　（スワイプでも移動）</div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="progressBar" style="width:0%"></div>
+  </div>
+  <div class="controls">
+    <button class="btn btn-prev" onclick="prevCard()">◀ 前へ</button>
+    <button class="btn btn-next" onclick="nextCard()">次へ ▶</button>
+  </div>
+  <div class="mark-btns" id="markBtns" style="display:none">
+    <button class="btn-known" onclick="markCard(true)">✓ 覚えた</button>
+    <button class="btn-unknown" onclick="markCard(false)">✗ まだ</button>
+  </div>
+  <div class="score-row" style="margin-bottom:10px">
+    <span class="ok">✓ 覚えた: <span id="knownCount">0</span></span>
+    <span class="ng">✗ まだ: <span id="unknownCount">0</span></span>
+  </div>
+</div>
+
+<!-- Quiz -->
+<div id="quizMode" style="display:none">
+  <div class="card-area" style="cursor:default">
+    <div class="card-face card-front" style="position:relative;width:100%;height:100%;border-radius:20px;background:linear-gradient(135deg,#312e81,#1e1b4b);border:1.5px solid #4c1d95;">
+      <div class="card-label">ベトナム語</div>
+      <div class="card-word" id="quizVn">-</div>
+    </div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="quizProgress" style="width:0%"></div>
+  </div>
+  <div class="quiz-choices" id="quizChoices"></div>
+  <div class="score-row" style="margin-bottom:10px">
+    <span class="ok">正解: <span id="quizCorrect">0</span></span>
+    <span class="ng">不正解: <span id="quizWrong">0</span></span>
+  </div>
+</div>
+
+<div class="options">
+  <button class="btn-sm" id="btnShuffle" onclick="toggleShuffle()">シャッフル</button>
+  <button class="btn-sm" id="btnJpFirst" onclick="toggleJpFirst()">日→越</button>
+  <button class="btn-sm" id="btnUnknownOnly" onclick="toggleUnknownOnly()">未習得のみ</button>
+  <button class="btn-sm" onclick="resetAll()">リセット</button>
+</div>
+
+<script>
+const ALL_DATA = [{"vn": "Anh", "jp": "兄さん、あなた（男性に対して、同等かやや年上の場合）"}, {"vn": "Bà", "jp": "おばあさん（目上の女性への尊敬を込めた呼び方）"}, {"vn": "Bạn ấy", "jp": "その友達、彼/彼女"}, {"vn": "Các anh", "jp": "複数の男性、兄さんたち"}, {"vn": "Các bà", "jp": "複数のおばあさん"}, {"vn": "Các cháu", "jp": "複数の子供たち（話者より年下）"}, {"vn": "Các cháu ấy", "jp": "その複数の子供たち"}, {"vn": "Các chị", "jp": "複数の女性、姉さんたち（話者より年上の女性への親しみを込めた呼び方）"}, {"vn": "Các chú", "jp": "複数のおじさんたち（父親の年齢層の男性）"}, {"vn": "Các em ấy", "jp": "その複数の弟たち、妹たち（話者より年下）"}, {"vn": "Các ông ấy", "jp": "その複数のおじいさんたち、年上の男性たち"}, {"vn": "Chị", "jp": "姉さん、あなた（女性に対して、同等かやや年上の場合）"}, {"vn": "Chú", "jp": "おじさん（父親の年齢層の男性）"}, {"vn": "Chúng mình", "jp": "私たち（話者と聞き手、または話者が属するグループ）"}, {"vn": "Chúng ta", "jp": "私たち（話者と聞き手を含む、もっと広範なグループ）"}, {"vn": "Chúng tôi", "jp": "私たち（フォーマル、聞き手を含まない場合）"}, {"vn": "Cô ấy", "jp": "彼女、あの女性（独身の女性や同等の年齢の女性への敬称）"}, {"vn": "Em", "jp": "妹/弟(自分より15歳以内の)年下の男女"}, {"vn": "Em ấy", "jp": "彼女/彼(自分より15歳以内の)年下の男女"}, {"vn": "Họ", "jp": "彼ら、彼女ら（第三者の複数形）"}, {"vn": "Mình", "jp": "私（自分を指す非常に親密な形）"}, {"vn": "Mọi người", "jp": "みんな、皆さん（複数の人を一括りにして呼ぶ場合）"}, {"vn": "Tôi", "jp": "私（一般的な一人称単数形、フォーマルな場面でよく使われる）"}, {"vn": "Ấn Độ", "jp": "インド"}, {"vn": "Bác sĩ", "jp": "医師"}, {"vn": "Cảnh sát", "jp": "警察官"}, {"vn": "Đài Loan", "jp": "台湾"}, {"vn": "Đầu bếp", "jp": "シェフ"}, {"vn": "Đức", "jp": "ドイツ"}, {"vn": "Dược sĩ", "jp": "薬剤師"}, {"vn": "Giám đốc", "jp": "社長"}, {"vn": "Giáo viên", "jp": "教師"}, {"vn": "Hàn Quốc", "jp": "韓国"}, {"vn": "Kỹ sư", "jp": "エンジニア"}, {"vn": "Làm việc tự do", "jp": "自営業"}, {"vn": "Luật sư", "jp": "弁護士"}, {"vn": "Mỹ", "jp": "アメリカ"}, {"vn": "Người Mỹ", "jp": "アメリカ人"}, {"vn": "Người Nhật (Bản)", "jp": "日本人"}, {"vn": "Người Việt (Nam)", "jp": "ベトナム人"}, {"vn": "Nhà báo", "jp": "ジャーナリスト"}, {"vn": "Nhà khoa học", "jp": "科学者"}, {"vn": "Nhà thiết kế", "jp": "デザイナー"}, {"vn": "Nhân viên bán hàng", "jp": "販売員"}, {"vn": "Nhân viên công ty", "jp": "会社員"}, {"vn": "Nhân viên ngân hàng", "jp": "銀行員"}, {"vn": "Nhân viên văn phòng", "jp": "事務員"}, {"vn": "Nhật Bản", "jp": "日本"}, {"vn": "Nông dân", "jp": "農家"}, {"vn": "Pháp", "jp": "フランス"}, {"vn": "Phi công", "jp": "パイロット"}, {"vn": "Quản lý", "jp": "マネージャー"}, {"vn": "Sinh viên", "jp": "学生"}, {"vn": "Tài xế", "jp": "運転手"}, {"vn": "Thái Lan", "jp": "タイ"}, {"vn": "Thợ điện", "jp": "電気技師"}, {"vn": "Thợ làm tóc", "jp": "美容師"}, {"vn": "Thợ xây", "jp": "建設労働者"}, {"vn": "Trung Quốc", "jp": "中国"}, {"vn": "Úc", "jp": "オーストラリア"}, {"vn": "Việt Nam", "jp": "ベトナム"}, {"vn": "Ý", "jp": "イタリア"}, {"vn": "Ba", "jp": "三"}, {"vn": "Bảy", "jp": "七"}, {"vn": "Bốn", "jp": "四"}, {"vn": "Chín", "jp": "九"}, {"vn": "Hai", "jp": "二"}, {"vn": "Hai mươi", "jp": "二十"}, {"vn": "Hai (mươi) mốt", "jp": "二十一"}, {"vn": "Hai (mươi) tư / Hai (mươi) bốn", "jp": "二十四"}, {"vn": "Một", "jp": "一"}, {"vn": "Mười", "jp": "十"}, {"vn": "Mười lăm", "jp": "十五"}, {"vn": "Năm", "jp": "五"}, {"vn": "Sáu", "jp": "六"}, {"vn": "Tám", "jp": "八"}, {"vn": "Tuổi", "jp": "～歳"}, {"vn": "Bút bi", "jp": "ボールペン"}, {"vn": "Bút chì", "jp": "シャープペンシル、鉛筆"}, {"vn": "Cái bàn", "jp": "机、テーブル"}, {"vn": "Cái bút", "jp": "ペン"}, {"vn": "Cái túi", "jp": "かばん"}, {"vn": "Con bò", "jp": "牛"}, {"vn": "Con chó", "jp": "犬"}, {"vn": "Con gà", "jp": "鶏"}, {"vn": "Con mèo", "jp": "猫"}, {"vn": "Con trâu", "jp": "水牛"}, {"vn": "Quả bơ", "jp": "アボカド"}, {"vn": "Quả chôm chôm", "jp": "ランブタン"}, {"vn": "Quả chuối", "jp": "バナナ"}, {"vn": "Quả dứa", "jp": "パイナップル"}, {"vn": "Quả đu đủ", "jp": "パパイヤ"}, {"vn": "Quả khế", "jp": "スターフルーツ"}, {"vn": "Quả mít", "jp": "ジャックフルーツ"}, {"vn": "Quả na", "jp": "カスタードアップル"}, {"vn": "Quả nho", "jp": "ぶどう"}, {"vn": "Quả ổi", "jp": "グアバ"}, {"vn": "Quả sầu riêng", "jp": "ドリアン"}, {"vn": "Quả táo", "jp": "りんご"}, {"vn": "Quả thanh long", "jp": "ドラゴンフルーツ"}, {"vn": "Quả trứng", "jp": "卵"}, {"vn": "Quả xoài", "jp": "マンゴー"}, {"vn": "Quyển sách", "jp": "本"}, {"vn": "Quyển tạp chí", "jp": "雑誌"}, {"vn": "Quyển từ điển", "jp": "辞書"}, {"vn": "Quyển vở", "jp": "ノート"}, {"vn": "Bố mẹ", "jp": "両親"}, {"vn": "Máy ảnh", "jp": "カメラ"}, {"vn": "Máy tính", "jp": "パソコン、コンピューター"}, {"vn": "Rượu vang", "jp": "ワイン"}, {"vn": "Xe máy", "jp": "バイク"}, {"vn": "Xe ô tô", "jp": "自動車"}, {"vn": "~ mươi nghìn", "jp": "～万"}, {"vn": "~ mươi triệu", "jp": "～千万"}, {"vn": "~ nghìn", "jp": "千"}, {"vn": "~ trăm", "jp": "百"}, {"vn": "~ trăm nghìn", "jp": "～十万"}, {"vn": "~ trăm triệu", "jp": "～億"}, {"vn": "~ triệu", "jp": "～百万"}, {"vn": "~ tỷ", "jp": "～十億"}, {"vn": "Bao nhiêu tiền", "jp": "いくら"}, {"vn": "Cầu thang", "jp": "階段"}, {"vn": "Nhà", "jp": "家"}, {"vn": "Nhà vệ sinh", "jp": "トイレ"}, {"vn": "Phòng họp", "jp": "会議室"}, {"vn": "Thang cuốn", "jp": "エスカレーター"}, {"vn": "Thang máy", "jp": "エレベーター"}, {"vn": "Bao nhiêu", "jp": "（10以上）いくつ"}, {"vn": "Chiều", "jp": "午後"}, {"vn": "Chủ nhật", "jp": "日曜日"}, {"vn": "Đêm", "jp": "夜中"}, {"vn": "Giây", "jp": "～秒"}, {"vn": "Giờ", "jp": "～時"}, {"vn": "Hôm kia", "jp": "一昨日"}, {"vn": "Hôm nay", "jp": "今日"}, {"vn": "Hôm qua", "jp": "昨日"}, {"vn": "Kém", "jp": "～分前"}, {"vn": "Khuya", "jp": "真夜中"}, {"vn": "Mấy", "jp": "（10以下）いくつ"}, {"vn": "Ngày kia", "jp": "明後日"}, {"vn": "Ngày mai", "jp": "明日"}, {"vn": "Ngày nghỉ", "jp": "休みの日"}, {"vn": "Phút", "jp": "～分"}, {"vn": "Rưỡi", "jp": "～半"}, {"vn": "Sáng", "jp": "朝"}, {"vn": "Thứ ba", "jp": "火曜日"}, {"vn": "Thứ bảy", "jp": "土曜日"}, {"vn": "Thứ hai", "jp": "月曜日"}, {"vn": "Thứ mấy", "jp": "何曜日"}, {"vn": "Thứ năm", "jp": "木曜日"}, {"vn": "Thứ sáu", "jp": "金曜日"}, {"vn": "Thứ tư", "jp": "水曜日"}, {"vn": "Tối", "jp": "暗い"}, {"vn": "Trưa", "jp": "昼"}, {"vn": "Bảo tàng", "jp": "博物館"}, {"vn": "Chụp ảnh", "jp": "写真を撮る"}, {"vn": "Công ty", "jp": "会社"}, {"vn": "Công viên", "jp": "公園"}, {"vn": "Đi ngủ", "jp": "寝る"}, {"vn": "Đọc sách", "jp": "本を読む"}, {"vn": "Gửi mail", "jp": "メールを送る"}, {"vn": "Học", "jp": "勉強する"}, {"vn": "Làm việc", "jp": "働く"}, {"vn": "Nghe nhạc", "jp": "音楽を聴く"}, {"vn": "Nghỉ", "jp": "休む"}, {"vn": "Thức dậy", "jp": "起きる"}, {"vn": "Uống nước", "jp": "水を飲む"}, {"vn": "Văn phòng", "jp": "オフィス"}, {"vn": "Đi làm", "jp": "仕事に行く"}, {"vn": "Hàng ngày", "jp": "毎日"}, {"vn": "Hàng tháng", "jp": "毎月"}, {"vn": "Hàng tuần", "jp": "毎週"}, {"vn": "Khoảng", "jp": "（～時）頃"}, {"vn": "Lúc", "jp": "（～時）に"}, {"vn": "Mỗi sáng", "jp": "毎朝"}, {"vn": "Mỗi tối", "jp": "毎晩"}, {"vn": "Nghỉ trưa", "jp": "昼休み"}, {"vn": "Ăn", "jp": "食べる"}, {"vn": "Bạn", "jp": "友達"}, {"vn": "Bạn gái", "jp": "彼女"}, {"vn": "Bạn trai", "jp": "彼氏"}, {"vn": "Bảo tàng mỹ thuật", "jp": "美術館"}, {"vn": "Bưu điện", "jp": "郵便局"}, {"vn": "Đến", "jp": "届く"}, {"vn": "Đi", "jp": "行く"}, {"vn": "Đi bộ", "jp": "歩く"}, {"vn": "Đồng nghiệp", "jp": "同僚"}, {"vn": "Gặp", "jp": "会う"}, {"vn": "Gia đình", "jp": "家族"}, {"vn": "Một mình", "jp": "一人で"}, {"vn": "Ngân hàng", "jp": "銀行"}, {"vn": "Siêu thị", "jp": "スーパー"}, {"vn": "Tàu điện", "jp": "電車"}, {"vn": "Trung tâm thương mại", "jp": "デパート"}, {"vn": "Về", "jp": "帰る"}, {"vn": "Xe buýt", "jp": "バス"}, {"vn": "Xe đạp", "jp": "自転車"}, {"vn": "3 ngày sau", "jp": "3日後"}, {"vn": "3 ngày trước", "jp": "3日前"}, {"vn": "Báo", "jp": "新聞"}, {"vn": "Cà phê", "jp": "コーヒー"}, {"vn": "Con tôi", "jp": "私の子供"}, {"vn": "Cửa hàng tiện lợi", "jp": "コンビニ"}, {"vn": "Đi du lịch", "jp": "旅行に行く"}, {"vn": "Đồ ăn", "jp": "食べ物"}, {"vn": "Hút thuốc (lá)", "jp": "たばこを吸う"}, {"vn": "Kết hôn", "jp": "結婚する"}, {"vn": "Năm ngoái", "jp": "去年"}, {"vn": "Năm sau", "jp": "来年"}, {"vn": "Năm tới", "jp": "来年"}, {"vn": "Năm trước", "jp": "去年"}, {"vn": "Nấu ăn", "jp": "料理をする"}, {"vn": "Phòng", "jp": "部屋"}, {"vn": "Rượu", "jp": "お酒"}, {"vn": "Sang năm", "jp": "来年"}, {"vn": "Sống", "jp": "住む"}, {"vn": "Tháng sau", "jp": "来月"}, {"vn": "Tháng tới", "jp": "来月"}, {"vn": "Tháng trước", "jp": "先月"}, {"vn": "Thư viện", "jp": "図書館"}, {"vn": "Tuần sau", "jp": "来週"}, {"vn": "Tuần tới", "jp": "来週"}, {"vn": "Tuần trước", "jp": "先週"}, {"vn": "Về nước", "jp": "帰国する"}, {"vn": "Viết báo cáo", "jp": "レポートを書く"}, {"vn": "Xem tivi", "jp": "テレビを見る"}, {"vn": "Bao giờ", "jp": "いつ"}, {"vn": "Chúc mừng", "jp": "おめでとうございます"}, {"vn": "Khi nào", "jp": "いつ"}, {"vn": "Lúc nào", "jp": "いつ"}, {"vn": "Năm ~", "jp": "～年"}, {"vn": "Ngày ~", "jp": "11日～31日"}, {"vn": "Ngày bao nhiêu", "jp": "何日"}, {"vn": "Ngày mùng ~", "jp": "1日～10日"}, {"vn": "Ngày mùng mấy", "jp": "何日"}, {"vn": "Ngày nào", "jp": "どの日"}, {"vn": "Sinh nhật", "jp": "誕生日"}, {"vn": "Tháng ~", "jp": "～月"}, {"vn": "Bia", "jp": "ビール"}, {"vn": "Bông hoa", "jp": "花"}, {"vn": "Cà vạt", "jp": "ネクタイ"}, {"vn": "Tiền", "jp": "お金"}, {"vn": "Biếu", "jp": "差し上げる"}, {"vn": "Cho", "jp": "あげる"}, {"vn": "Dạy", "jp": "教える"}, {"vn": "Giáng sinh", "jp": "クリスマス"}, {"vn": "Hoa quả", "jp": "果物"}, {"vn": "Quà", "jp": "プレゼント"}, {"vn": "Tặng", "jp": "あげる"}, {"vn": "Thư", "jp": "手紙"}, {"vn": "Em bé", "jp": "赤ちゃん"}, {"vn": "Làm bài tập", "jp": "宿題をする"}, {"vn": "Uống rượu", "jp": "お酒を飲む"}, {"vn": "Bận rộn", "jp": "忙しい"}, {"vn": "Bộ phim", "jp": "映画"}, {"vn": "Căn phòng", "jp": "部屋"}, {"vn": "Cổ", "jp": "古い"}, {"vn": "Cốc", "jp": "コップ"}, {"vn": "Đắt", "jp": "（値段が）高い"}, {"vn": "Đất nước", "jp": "国"}, {"vn": "Đẹp", "jp": "きれい"}, {"vn": "Đẹp trai", "jp": "ハンサム"}, {"vn": "Đơn giản", "jp": "簡単"}, {"vn": "Hiền", "jp": "優しい"}, {"vn": "Khó", "jp": "難しい"}, {"vn": "Mới", "jp": "新しい"}, {"vn": "Nổi tiếng", "jp": "有名"}, {"vn": "Ngon", "jp": "おいしい"}, {"vn": "Nhà hàng", "jp": "レストラン"}, {"vn": "Rẻ", "jp": "安い"}, {"vn": "Tốt", "jp": "良い"}, {"vn": "Thành phố", "jp": "街"}, {"vn": "Thú vị", "jp": "面白い"}, {"vn": "Trà", "jp": "お茶"}, {"vn": "Ăn tối", "jp": "晩ご飯を食べる"}, {"vn": "Bật", "jp": "つける"}, {"vn": "Bật điều hòa", "jp": "エアコンをつける"}, {"vn": "Chơi golf", "jp": "ゴルフをする"}, {"vn": "Gọi taxi", "jp": "タクシーを呼ぶ"}, {"vn": "Lấy", "jp": "取る"}, {"vn": "Muối", "jp": "塩"}, {"vn": "Tắt", "jp": "消す"}, {"vn": "Tắt đèn", "jp": "電気を消す"}, {"vn": "Xách đồ", "jp": "荷物を持つ"}, {"vn": "Xem phim", "jp": "映画を見る"}, {"vn": "Bóng chày", "jp": "野球"}, {"vn": "Đồ uống", "jp": "飲み物"}, {"vn": "Ghét", "jp": "嫌い"}, {"vn": "Giỏi", "jp": "上手"}, {"vn": "Hát", "jp": "歌う"}, {"vn": "Hát karaoke", "jp": "カラオケを歌う"}, {"vn": "Hay", "jp": "上手"}, {"vn": "Không ~ lắm", "jp": "あまり～ではありません"}, {"vn": "Môn thể thao", "jp": "スポーツ"}, {"vn": "Một chút", "jp": "少し"}, {"vn": "Nhạc pop", "jp": "ポップ"}, {"vn": "Nhảy", "jp": "ダンス"}, {"vn": "Rất", "jp": "とても"}, {"vn": "Sở đoản", "jp": "短所"}, {"vn": "Sở thích", "jp": "趣味"}, {"vn": "Sở trường", "jp": "長所"}, {"vn": "Tiểu thuyết", "jp": "小説"}, {"vn": "Thích", "jp": "好き"}, {"vn": "Tranh", "jp": "絵"}, {"vn": "Vẽ", "jp": "描く"}, {"vn": "Xấu", "jp": "醜い"}, {"vn": "Bài kiểm tra", "jp": "テスト"}, {"vn": "Danh thiếp", "jp": "名刺"}, {"vn": "Đi nhậu", "jp": "飲みに行く"}, {"vn": "Hẹn", "jp": "約束"}, {"vn": "Muốn", "jp": "～たい"}, {"vn": "Nói chuyện", "jp": "話す"}, {"vn": "Nhiều", "jp": "たくさん"}, {"vn": "Tiền lẻ", "jp": "細かいお金"}, {"vn": "Thời gian", "jp": "時間"}, {"vn": "Việc", "jp": "用事"}, {"vn": "Bé gái", "jp": "女の子"}, {"vn": "Bé trai", "jp": "男の子"}, {"vn": "Bệnh viện", "jp": "病院"}, {"vn": "Cái đèn", "jp": "ランプ"}, {"vn": "Cái ghế", "jp": "いす"}, {"vn": "Cây", "jp": "木"}, {"vn": "Cửa hàng quần áo", "jp": "洋服屋"}, {"vn": "Khách sạn", "jp": "ホテル"}, {"vn": "Lò vi sóng", "jp": "レンジ"}, {"vn": "Máy bán hàng tự động", "jp": "自動販売機"}, {"vn": "Nước ép", "jp": "ジュース"}, {"vn": "Nhà sách", "jp": "本屋"}, {"vn": "Nhà thuốc", "jp": "薬局"}, {"vn": "Ở bên cạnh", "jp": "隣"}, {"vn": "Ở bên phải", "jp": "右"}, {"vn": "Ở bên trái", "jp": "左"}, {"vn": "Ở dưới", "jp": "下"}, {"vn": "Ở đối diện", "jp": "向かい"}, {"vn": "Ở gần", "jp": "近く"}, {"vn": "Ở giữa", "jp": "間"}, {"vn": "Ở ngoài", "jp": "外"}, {"vn": "Ở sau", "jp": "後ろ"}, {"vn": "Ở trên", "jp": "上"}, {"vn": "Ở trong", "jp": "中"}, {"vn": "Ở trước", "jp": "前"}, {"vn": "Quán cà phê", "jp": "カフェ"}, {"vn": "Sân", "jp": "庭"}, {"vn": "Tủ lạnh", "jp": "冷蔵庫"}, {"vn": "Trường học", "jp": "学校"}, {"vn": "~ tiếng", "jp": "～時間"}, {"vn": "Anh chị em", "jp": "兄弟"}, {"vn": "Bún chả", "jp": "ブンチャー"}, {"vn": "Cà phê sữa đá", "jp": "アイスミルクコーヒー"}, {"vn": "Cái kem", "jp": "アイスクリーム"}, {"vn": "Phòng ngủ", "jp": "寝室"}, {"vn": "Trà đá", "jp": "アイスお茶"}, {"vn": "Mát", "jp": "涼しい"}, {"vn": "Mùa thu", "jp": "秋"}, {"vn": "Mùa xuân", "jp": "春"}, {"vn": "Nặng", "jp": "重い"}, {"vn": "Nóng", "jp": "暑い"}, {"vn": "Nhỏ", "jp": "小さい"}, {"vn": "Quýt", "jp": "みかん"}, {"vn": "Rảnh", "jp": "都合がいい"}, {"vn": "To", "jp": "大きい"}, {"vn": "Thịt bò", "jp": "牛肉"}, {"vn": "Thịt gà", "jp": "とり肉"}, {"vn": "Con", "jp": "子供"}, {"vn": "Con gái", "jp": "娘"}, {"vn": "Đồ", "jp": "品物"}, {"vn": "Đón", "jp": "迎える"}, {"vn": "Màu trắng", "jp": "白い"}, {"vn": "Mua sắm", "jp": "買い物する"}, {"vn": "Mượn", "jp": "借りる"}, {"vn": "Ngắm hoa", "jp": "花見する"}, {"vn": "Nhẹ", "jp": "軽い"}, {"vn": "Cửa sổ", "jp": "窓"}, {"vn": "Cho xem", "jp": "見せる"}, {"vn": "Đi thẳng", "jp": "まっすぐ行く"}, {"vn": "Đóng", "jp": "閉める"}, {"vn": "Giúp", "jp": "手伝う"}, {"vn": "Ngồi", "jp": "座る"}, {"vn": "Photo", "jp": "コピーする"}, {"vn": "Vào", "jp": "入る"}, {"vn": "Ăn uống", "jp": "飲食する"}, {"vn": "Đỗ xe", "jp": "駐車する"}, {"vn": "Dùng", "jp": "使う"}, {"vn": "Mở", "jp": "開ける"}, {"vn": "Quay phim", "jp": "ビデオを撮る"}, {"vn": "Sờ", "jp": "触れる"}, {"vn": "Sớm", "jp": "早い"}, {"vn": "Thú cưng", "jp": "ペット"}, {"vn": "Xả rác", "jp": "ポイ捨てる"}, {"vn": "Bị sốt", "jp": "熱がある"}, {"vn": "Cởi", "jp": "脱ぐ"}, {"vn": "Đi ra ngoài", "jp": "外に出る"}, {"vn": "Giày", "jp": "靴"}, {"vn": "Hộ chiếu", "jp": "パスポート"}, {"vn": "Mang theo", "jp": "持って行く"}, {"vn": "Nộp", "jp": "提出する"}, {"vn": "Trả sách", "jp": "本を返す"}, {"vn": "Trả tiền", "jp": "お金を払う"}, {"vn": "Trước", "jp": "～までに"}, {"vn": "Chơi bóng đá", "jp": "サッカーをする"}, {"vn": "Chơi tennis", "jp": "テニスをする"}, {"vn": "Đặt chỗ", "jp": "予約する"}, {"vn": "Lái xe", "jp": "運転する"}, {"vn": "Mạng", "jp": "インターネット"}, {"vn": "Sân bay", "jp": "空港"}, {"vn": "Thẻ", "jp": "カード"}, {"vn": "Thủ đô", "jp": "首都"}, {"vn": "Bơi", "jp": "泳ぐ"}, {"vn": "Chạy bộ", "jp": "ジョギングする"}, {"vn": "Đổi tiền", "jp": "両替する"}, {"vn": "Ông bà", "jp": "祖父母"}, {"vn": "Quê", "jp": "ふるさと"}, {"vn": "Rửa tay", "jp": "手を洗う"}, {"vn": "Sau đó", "jp": "その後"}, {"vn": "Tắm", "jp": "浴びる"}, {"vn": "Thuốc", "jp": "薬"}, {"vn": "(Làm việc) nhiều", "jp": "よく（働く）"}, {"vn": "Bán", "jp": "売る"}, {"vn": "Có ích", "jp": "役に立つ"}, {"vn": "Đáng sợ", "jp": "怖い"}, {"vn": "Đông người", "jp": "人が多い"}, {"vn": "Giao thông", "jp": "交通"}, {"vn": "Gió", "jp": "風"}, {"vn": "Hòa bình", "jp": "平和"}, {"vn": "Hoa lan", "jp": "蘭の花"}, {"vn": "Hoa mai", "jp": "梅の花"}, {"vn": "Hơi", "jp": "少し"}, {"vn": "Phần mềm", "jp": "ソフト"}, {"vn": "Sản phẩm", "jp": "製品"}, {"vn": "Tiện lợi", "jp": "便利"}, {"vn": "Thiết kế", "jp": "デザイン"}, {"vn": "Thông minh", "jp": "賢い"}, {"vn": "Trời mưa", "jp": "雨が降る"}, {"vn": "Trường đại học", "jp": "大学"}, {"vn": "Ước mơ", "jp": "夢"}, {"vn": "Biển", "jp": "海"}, {"vn": "Công việc", "jp": "仕事"}, {"vn": "Khát nước", "jp": "のどがかわく"}, {"vn": "Lạnh", "jp": "寒い"}, {"vn": "Mùa đông", "jp": "冬"}, {"vn": "Tuyết", "jp": "雪"}, {"vn": "Trận đấu", "jp": "試合"}, {"vn": "Bánh ngọt", "jp": "ケーキ"}, {"vn": "Bức ảnh", "jp": "写真"}, {"vn": "Bức tranh", "jp": "絵"}, {"vn": "Cái áo khoác", "jp": "コート"}, {"vn": "Cái mũ", "jp": "帽子"}, {"vn": "Đeo cà vạt", "jp": "ネクタイをする"}, {"vn": "Đeo kính", "jp": "眼鏡をかける"}, {"vn": "Đi giày", "jp": "靴を履く"}, {"vn": "Đội mũ", "jp": "帽子をかぶる"}, {"vn": "Làm (bánh ngọt)", "jp": "（ケーキ）を作る"}, {"vn": "Lần đầu tiên", "jp": "初めて"}, {"vn": "Màu đỏ", "jp": "赤い"}, {"vn": "Màu xanh lá cây", "jp": "緑の色"}, {"vn": "Nơi", "jp": "ところ"}, {"vn": "Rau", "jp": "野菜"}, {"vn": "Sinh ra", "jp": "生まれる"}, {"vn": "Bị ho", "jp": "咳が出る"}, {"vn": "Bị hỏng", "jp": "故障する"}, {"vn": "Buồn ngủ", "jp": "眠い"}, {"vn": "Câu cá", "jp": "釣りをする"}, {"vn": "Cuộc họp", "jp": "会議"}, {"vn": "Cuối tuần", "jp": "週末"}, {"vn": "Du lịch vòng quanh thế giới", "jp": "世界旅行"}, {"vn": "Kết thúc", "jp": "終わる"}, {"vn": "Mất", "jp": "かかる"}, {"vn": "Thời tiết đẹp", "jp": "いい天気"}, {"vn": "Ý kiến", "jp": "意見"}, {"vn": "Bị ốm", "jp": "病気"}, {"vn": "Cơ hội", "jp": "チャンス"}, {"vn": "Chồng", "jp": "夫"}, {"vn": "Hiểu", "jp": "わかる"}, {"vn": "Ngay", "jp": "すぐ"}, {"vn": "Nhớ", "jp": "覚える"}, {"vn": "Quên", "jp": "忘れる"}, {"vn": "Suy nghĩ", "jp": "考える"}, {"vn": "Tập thể dục", "jp": "運動する"}, {"vn": "Tí nữa", "jp": "後で"}, {"vn": "Tra (từ điển)", "jp": "（辞書で）調べる"}, {"vn": "Bất tiện", "jp": "不便"}, {"vn": "Dọn dẹp", "jp": "片付ける"}, {"vn": "Đói bụng", "jp": "お腹がすいた"}, {"vn": "Giặt giũ", "jp": "洗濯する"}, {"vn": "Rửa bát", "jp": "皿洗う"}, {"vn": "Tin tức", "jp": "ニュース"}, {"vn": "thú vị", "jp": "面白い・興味深い・楽しい"}, {"vn": "lý do", "jp": "理由"}, {"vn": "chương trình", "jp": "番組・プログラム"}, {"vn": "ti vi", "jp": "テレビ"}, {"vn": "nội dung", "jp": "内容"}, {"vn": "chiếc váy", "jp": "ワンピース・スカート"}, {"vn": "mặc", "jp": "着る"}, {"vn": "đồ ăn", "jp": "食べ物"}, {"vn": "sức khỏe", "jp": "健康"}, {"vn": "tổ chức", "jp": "開催する・組織する・企画する"}, {"vn": "hội thảo", "jp": "セミナー・シンポジウム"}, {"vn": "năm nay", "jp": "今年"}, {"vn": "nghe nói", "jp": "〜だそうだ・〜と聞いている"}, {"vn": "chuyển nhà", "jp": "引っ越す"}, {"vn": "năm ngoái", "jp": "去年"}, {"vn": "tháng trước", "jp": "先月"}, {"vn": "xổ số", "jp": "宝くじ"}, {"vn": "giải nhất", "jp": "一等賞"}, {"vn": "cô đơn", "jp": "孤独な・寂しい"}, {"vn": "bài phát biểu", "jp": "スピーチ・発言"}, {"vn": "dài", "jp": "長い"}, {"vn": "khi", "jp": "〜のとき"}, {"vn": "tức giận", "jp": "怒る・腹を立てる"}, {"vn": "giọng nói", "jp": "声・話し方"}, {"vn": "thường", "jp": "よく・普通"}, {"vn": "việc sống", "jp": "生活すること"}, {"vn": "một mình", "jp": "一人で"}, {"vn": "dịch vụ", "jp": "サービス"}, {"vn": "đúng là", "jp": "本当に・まさに"}, {"vn": "giao tiếp", "jp": "コミュニケーションする・交流する"}, {"vn": "lúc nào cũng", "jp": "いつも"}, {"vn": "vui", "jp": "楽しい・嬉しい"}, {"vn": "chúng ta", "jp": "私たち"}, {"vn": "cần", "jp": "必要とする"}, {"vn": "tiếng Anh", "jp": "英語"}, {"vn": "khách du lịch", "jp": "観光客"}, {"vn": "nước ngoài", "jp": "外国・海外"}, {"vn": "thông báo", "jp": "知らせる・お知らせ"}, {"vn": "tốt nghiệp", "jp": "卒業する"}, {"vn": "vị trí", "jp": "位置・場所・ポジション・役職"}, {"vn": "trồng", "jp": "植える"}, {"vn": "cây xanh", "jp": "植木・緑の木"}, {"vn": "nửa năm", "jp": "半年"}, {"vn": "ca sĩ", "jp": "歌手"}, {"vn": "âm nhạc", "jp": "音楽"}, {"vn": "thay đổi", "jp": "変える・変わる"}, {"vn": "bàn làm việc", "jp": "仕事机・デスク"}, {"vn": "mới đến", "jp": "来たばかり・着いたばかり"}, {"vn": "có thể", "jp": "〜できる"}, {"vn": "chưa", "jp": "まだ〜していない"}, {"vn": "nên", "jp": "だから・そのため"}, {"vn": "biết", "jp": "知る・わかる"}, {"vn": "thông tin", "jp": "情報"}, {"vn": "thời gian", "jp": "時間"}, {"vn": "sai sót", "jp": "ミス・誤り"}, {"vn": "đã", "jp": "〜した（過去・完了）"}, {"vn": "chúng tôi", "jp": "私たち"}, {"vn": "mà", "jp": "〜しながら・〜なのに"}, {"vn": "mất nhiều", "jp": "多くかかる・費やす"}, {"vn": "để sửa chữa", "jp": "修正するために"}, {"vn": "trời", "jp": "空・天気"}, {"vn": "càng ngày", "jp": "日に日に"}, {"vn": "lạnh", "jp": "寒い"}, {"vn": "đấy", "jp": "〜だよ（文末強調）"}, {"vn": "càng", "jp": "ますます（càng〜càng構文）"}, {"vn": "càng ngày càng", "jp": "日に日にますます〜になる"}, {"vn": "trước khi", "jp": "〜する前に"}, {"vn": "bắt đầu", "jp": "始める"}, {"vn": "công việc", "jp": "仕事"}, {"vn": "nghĩ", "jp": "思う・考える"}, {"vn": "đủ", "jp": "十分な・十分に"}, {"vn": "bỏ cuộc", "jp": "諦める・投げ出す"}, {"vn": "vất vả", "jp": "大変な・苦労する"}, {"vn": "cũng", "jp": "〜も"}, {"vn": "không được", "jp": "〜してはいけない・できない"}, {"vn": "tưởng tượng", "jp": "想像する・想像"}, {"vn": "khó", "jp": "難しい・〜しにくい"}, {"vn": "phức tạp", "jp": "複雑な"}, {"vn": "vấn đề", "jp": "問題"}, {"vn": "và", "jp": "そして・〜と"}, {"vn": "Bếp", "jp": "台所"}, {"vn": "Cái máy hút bụi", "jp": "掃除機"}, {"vn": "Đau đầu", "jp": "頭が痛い"}, {"vn": "Giá", "jp": "値段"}, {"vn": "Màu", "jp": "色"}, {"vn": "Phong cảnh", "jp": "景色"}, {"vn": "Rộng", "jp": "広い"}, {"vn": "Ăn ngoài", "jp": "外食する"}, {"vn": "Buổi chiều", "jp": "午後・夕方"}, {"vn": "Buổi sáng", "jp": "午前"}, {"vn": "Cắm trại", "jp": "キャンプする"}, {"vn": "Chơi", "jp": "遊ぶ"}, {"vn": "Đến muộn", "jp": "遅刻する"}, {"vn": "Đồ ăn nhanh", "jp": "ファストフード"}, {"vn": "Đồ ngọt", "jp": "甘いもの"}, {"vn": "Hàng xóm", "jp": "近所"}, {"vn": "Mạng xã hội", "jp": "SNS"}, {"vn": "Mùa hè", "jp": "夏"}, {"vn": "Nước ngọt", "jp": "コーラ"}, {"vn": "Thức khuya", "jp": "夜更かしをする"}, {"vn": "Trong giờ làm việc", "jp": "仕事中"}, {"vn": "Ví", "jp": "財布"}, {"vn": "Bị muộn", "jp": "遅れる"}, {"vn": "Địa chỉ", "jp": "住所"}, {"vn": "Đường", "jp": "道"}, {"vn": "Giờ hẹn", "jp": "約束の時間"}, {"vn": "Làm mất", "jp": "なくす"}, {"vn": "Nhầm", "jp": "間違える"}, {"vn": "Tài liệu", "jp": "資料"}, {"vn": "~ tới", "jp": "今度の～"}, {"vn": "Bắt đầu", "jp": "始める"}, {"vn": "Du lịch nước ngoài", "jp": "海外旅行"}, {"vn": "Đám cưới", "jp": "結婚式"}, {"vn": "Kì thi", "jp": "試験"}, {"vn": "Leo núi", "jp": "山に登る"}, {"vn": "Máy bay", "jp": "飛行機"}, {"vn": "Mệt", "jp": "疲れる"}, {"vn": "Nước ngoài", "jp": "外国"}, {"vn": "Nghỉ giải lao", "jp": "休憩する"}, {"vn": "Nghỉ ngơi", "jp": "ゆっくり休む"}, {"vn": "Tết", "jp": "お正月"}, {"vn": "Tiệc", "jp": "パーティー"}, {"vn": "Tổ chức", "jp": "行う"}, {"vn": "Thi", "jp": "（試験を）受ける"}, {"vn": "Vé", "jp": "チケット"}, {"vn": "Vé máy bay", "jp": "飛行機チケット"}, {"vn": "Bị cảm", "jp": "風邪を引く"}, {"vn": "Bị đau", "jp": "痛い"}, {"vn": "Bị thương", "jp": "けがをする"}, {"vn": "Bỏ", "jp": "抜く"}, {"vn": "Bữa sáng", "jp": "朝ごはん"}, {"vn": "Chân", "jp": "足"}, {"vn": "Dạ dày", "jp": "胃"}, {"vn": "Đêm khuya", "jp": "夜遅く"}, {"vn": "Luyện tập", "jp": "練習する"}, {"vn": "Quan trọng", "jp": "大事"}, {"vn": "~ lại một lần nữa", "jp": "もう一度～する"}, {"vn": "Bão", "jp": "台風"}, {"vn": "Kịp", "jp": "間に合う"}, {"vn": "Núi Phú Sĩ", "jp": "富士山"}, {"vn": "Nhìn thấy", "jp": "見える"}, {"vn": "Ồn ào", "jp": "うるさい"}, {"vn": "Quán karaoke", "jp": "カラオケの店"}, {"vn": "Quần áo", "jp": "服"}, {"vn": "Say xe", "jp": "車に酔う"}, {"vn": "Tạnh mưa", "jp": "雨がやむ"}, {"vn": "Tắc đường", "jp": "渋滞する"}, {"vn": "Tuyết rơi", "jp": "雪が降る"}, {"vn": "Tham gia", "jp": "参加する・出る"}, {"vn": "Trời đẹp", "jp": "天気がいい"}, {"vn": "Trời nắng", "jp": "晴れる"}, {"vn": "Vắng", "jp": "すいている"}, {"vn": "Bản đồ", "jp": "地図"}, {"vn": "Chỉ", "jp": "教える"}, {"vn": "Đánh răng", "jp": "歯を磨く"}, {"vn": "Huấn luyện viên", "jp": "コーチ"}, {"vn": "Hướng dẫn", "jp": "説明する"}, {"vn": "Kế hoạch", "jp": "計画"}, {"vn": "Kênh", "jp": "番組"}, {"vn": "Làm", "jp": "やる・する"}, {"vn": "Mẫu", "jp": "サンプル"}, {"vn": "Nha sĩ", "jp": "歯医者"}, {"vn": "Nhắc lại", "jp": "リピートする"}, {"vn": "Trang trí", "jp": "飾る"}, {"vn": "Cái ô", "jp": "傘"}, {"vn": "Cho vào", "jp": "入れる"}, {"vn": "Chợ đồ cũ", "jp": "フリーマーケット"}, {"vn": "Mặc", "jp": "着る"}, {"vn": "Sữa", "jp": "ミルク"}, {"vn": "Tự ~", "jp": "自分で～する"}, {"vn": "Vứt bỏ", "jp": "捨てる"}, {"vn": "Bị thiu", "jp": "腐る"}, {"vn": "Đeo khẩu trang", "jp": "マスクをかける"}, {"vn": "Ghi lại", "jp": "メモする"}, {"vn": "Khẩu trang", "jp": "マスク"}, {"vn": "Khỏi ốm", "jp": "病気が治る"}, {"vn": "Lo lắng", "jp": "心配する"}, {"vn": "Luật", "jp": "法律"}, {"vn": "Tìm", "jp": "探す"}, {"vn": "Thang bộ", "jp": "階段"}, {"vn": "Trở thành", "jp": "〜になる"}, {"vn": "Cắn", "jp": "嚙む"}, {"vn": "Gỗ", "jp": "木材"}, {"vn": "Giẫm vào", "jp": "〜に踏む"}, {"vn": "Giới thiệu", "jp": "紹介する"}, {"vn": "Khen", "jp": "褒める"}, {"vn": "Mắng", "jp": "叱る"}, {"vn": "Mời", "jp": "招待する"}, {"vn": "Nhà thờ", "jp": "教会"}, {"vn": "Nhờ", "jp": "頼む"}, {"vn": "Rủ", "jp": "誘う"}, {"vn": "Tai nạn", "jp": "事故"}, {"vn": "Thầy giáo", "jp": "（男の）先生"}, {"vn": "Thế kỷ", "jp": "世紀"}, {"vn": "Trộm", "jp": "泥棒"}, {"vn": "Truyện Kiều", "jp": "キエウの物語"}, {"vn": "Vợ", "jp": "妻"}, {"vn": "Xây dựng", "jp": "建てる"}, {"vn": "Xuất khẩu (sang)", "jp": "〜に輸出する"}, {"vn": "Bắc", "jp": "北"}, {"vn": "Cái quần", "jp": "ズボン"}, {"vn": "Cái váy", "jp": "ワンピース"}, {"vn": "Còn", "jp": "残る"}, {"vn": "Cửa thoát hiểm", "jp": "非常口"}, {"vn": "Chợ nổi", "jp": "水上市場"}, {"vn": "Dự báo thời tiết", "jp": "天気予報"}, {"vn": "Đèn lồng", "jp": "提灯"}, {"vn": "Đếm", "jp": "数える"}, {"vn": "Đủ", "jp": "足りる"}, {"vn": "Hỏi", "jp": "〜に聞く"}, {"vn": "Kì nghỉ hè", "jp": "夏休み"}, {"vn": "Kiểm tra", "jp": "確かめる"}, {"vn": "Làm xong", "jp": "できる"}, {"vn": "Lỗi sai", "jp": "間違い"}, {"vn": "Nam", "jp": "南"}, {"vn": "Ngắm", "jp": "眺める"}, {"vn": "Phương pháp", "jp": "方法"}, {"vn": "Tìm hiểu", "jp": "調べる"}, {"vn": "Trao đổi", "jp": "相談する"}, {"vn": "Vừa", "jp": "サイズが合う"}, {"vn": "Đông", "jp": "混む"}, {"vn": "Gạo", "jp": "お米"}, {"vn": "Hoa anh đào", "jp": "桜"}, {"vn": "Hỏng", "jp": "壊れる"}, {"vn": "Khóc", "jp": "泣く"}, {"vn": "Nở", "jp": "咲く"}, {"vn": "Tăng", "jp": "増える"}, {"vn": "Tức giận", "jp": "怒る"}, {"vn": "Cử động", "jp": "動く"}, {"vn": "Chua", "jp": "すっぱい"}, {"vn": "Mặn", "jp": "しょっぱい"}, {"vn": "Ớt", "jp": "唐辛子"}, {"vn": "Chữ", "jp": "字"}, {"vn": "Giải thích", "jp": "説明する"}, {"vn": "Hẹp", "jp": "狭い"}, {"vn": "Nhìn", "jp": "見る"}, {"vn": "Trượt", "jp": "滑る"}, {"vn": "Vỡ", "jp": "割れる"}, {"vn": "Bắt đầu", "jp": "始まる"}, {"vn": "Bữa tiệc", "jp": "パーティー"}, {"vn": "Gọi món", "jp": "料理を頼む"}, {"vn": "Có hứng thú với ~", "jp": "〜に興味がある"}, {"vn": "Cửa hàng", "jp": "お店"}, {"vn": "Chia tay", "jp": "別れる"}, {"vn": "Du lịch công ty", "jp": "社員旅行"}, {"vn": "Đi công tác", "jp": "出張する"}, {"vn": "Giảm", "jp": "減る"}, {"vn": "Nướng", "jp": "焼く"}, {"vn": "Trời nhiều mây", "jp": "曇り"}, {"vn": "Trưởng phòng", "jp": "部長"}, {"vn": "Văn hóa", "jp": "文化"}, {"vn": "Bể bơi", "jp": "プール"}, {"vn": "Con trai", "jp": "息子"}, {"vn": "Chuẩn bị cho ~", "jp": "〜のために準備する"}, {"vn": "Du học", "jp": "留学する"}, {"vn": "Đi học thêm", "jp": "塾に通う"}, {"vn": "Piano", "jp": "ピアノ"}, {"vn": "Ăn sáng", "jp": "朝ご飯を食べる"}, {"vn": "Bảo hiểm", "jp": "保険証"}, {"vn": "Buồn", "jp": "寂しい"}, {"vn": "Cấp 3", "jp": "高校"}, {"vn": "Chăm chỉ", "jp": "一生懸命"}, {"vn": "Môn toán", "jp": "数学"}, {"vn": "Trẻ", "jp": "若い"}, {"vn": "Bẩn", "jp": "汚い"}, {"vn": "Căn hộ", "jp": "アパート"}, {"vn": "Hạ sốt", "jp": "熱が下がる"}, {"vn": "Lương", "jp": "給料"}, {"vn": "Lương thấp", "jp": "給料が安い"}, {"vn": "Tiền thuê nhà", "jp": "家賃"}, {"vn": "Xếp hàng", "jp": "並ぶ"}, {"vn": "Bay", "jp": "飛ぶ"}, {"vn": "Béo", "jp": "太る"}, {"vn": "Bông", "jp": "線"}, {"vn": "Cao", "jp": "高い"}, {"vn": "Cứng", "jp": "硬い"}, {"vn": "Cháo", "jp": "おかゆ"}, {"vn": "Chạy", "jp": "走る"}, {"vn": "Chậm", "jp": "遅い"}, {"vn": "Chớp", "jp": "稲妻"}, {"vn": "Da", "jp": "肌"}, {"vn": "Dễ", "jp": "易しい"}, {"vn": "Đá", "jp": "石"}, {"vn": "Đen", "jp": "黒い"}, {"vn": "Đông", "jp": "（人が）多い"}, {"vn": "Heo", "jp": "豚"}, {"vn": "Kiến", "jp": "アリ"}, {"vn": "Khỏe", "jp": "強い"}, {"vn": "Mực", "jp": "墨"}, {"vn": "Núi", "jp": "山"}, {"vn": "Nhanh", "jp": "速い"}, {"vn": "Rùa", "jp": "亀"}, {"vn": "Sên", "jp": "カタツムリ"}, {"vn": "Trắng", "jp": "白い"}, {"vn": "Voi", "jp": "象"}, {"vn": "sắp xếp", "jp": "並べ替える"}, {"vn": "các từ", "jp": "単語（複数）"}, {"vn": "cụm từ", "jp": "フレーズ・句"}, {"vn": "tạo thành", "jp": "〜を作る"}, {"vn": "câu có nghĩa", "jp": "意味のある文"}, {"vn": "lựa chọn", "jp": "選ぶ"}, {"vn": "cách kết hợp", "jp": "組み合わせ方"}, {"vn": "thích hợp nhất", "jp": "最も適切な"}, {"vn": "phương án", "jp": "選択肢"}, {"vn": "điền vào", "jp": "〜に入れる・埋める"}, {"vn": "trường hợp", "jp": "場合・ケース"}, {"vn": "đứng ở đầu câu", "jp": "文頭に立つ"}, {"vn": "viết hoa", "jp": "大文字で書く"}, {"vn": "không", "jp": "いいえ／〜ですか（疑問）"}, {"vn": "có", "jp": "ある・いる"}, {"vn": "phải là", "jp": "〜のはずだ・〜ですか（確認）"}, {"vn": "xe ô tô", "jp": "自動車・車"}, {"vn": "anh", "jp": "あなた（男性への呼びかけ）"}, {"vn": "của", "jp": "〜の（所有）"}, {"vn": "Vâng", "jp": "はい"}, {"vn": "của tôi", "jp": "私のもの"}, {"vn": "anh ấy", "jp": "彼"}, {"vn": "này", "jp": "この・これ"}, {"vn": "sửa chữa", "jp": "修正する・直す"}, {"vn": "để", "jp": "〜するために"}, {"vn": "bây giờ", "jp": "今"}, {"vn": "tháng 12", "jp": "12月"}, {"vn": "dù", "jp": "たとえ〜でも"}, {"vn": "thì", "jp": "〜なら・〜は（区切り）"}, {"vn": "đó", "jp": "その・あの・それ"}, {"vn": "tôi nghĩ là", "jp": "私は〜と思う"}, {"vn": "khó tưởng tượng", "jp": "想像しがたい・想像を絶する"}, {"vn": "đọc", "jp": "読む"}, {"vn": "đoạn văn", "jp": "文章・段落"}, {"vn": "sau đó", "jp": "その後"}, {"vn": "câu trả lời", "jp": "答え・回答"}, {"vn": "tại sao", "jp": "なぜ"}, {"vn": "bảo vệ", "jp": "守る・保護する"}, {"vn": "môi trường", "jp": "環境"}, {"vn": "bằng cách", "jp": "〜という方法で"}, {"vn": "tái chế", "jp": "リサイクルする"}, {"vn": "nói một cách đơn giản", "jp": "簡単に言うと"}, {"vn": "hành động", "jp": "行動"}, {"vn": "có ích", "jp": "役に立つ"}, {"vn": "thực hiện", "jp": "実行する"}, {"vn": "thu gom", "jp": "集める・回収する"}, {"vn": "vật liệu", "jp": "材料・素材"}, {"vn": "bỏ đi", "jp": "捨てる・廃棄する"}, {"vn": "xử lý", "jp": "処理する"}, {"vn": "biến〜thành", "jp": "〜を〜に変える"}, {"vn": "sử dụng lại", "jp": "再利用する"}, {"vn": "câu hỏi tiếp theo", "jp": "次の質問"}, {"vn": "món đồ", "jp": "品物・アイテム"}, {"vn": "khác nhau", "jp": "さまざまな・異なる"}, {"vn": "tái xử lý", "jp": "再処理する"}, {"vn": "dù là", "jp": "〜であっても"}, {"vn": "văn phòng", "jp": "オフィス"}, {"vn": "sản phẩm", "jp": "製品・商品"}, {"vn": "dán nhãn", "jp": "ラベルを貼る"}, {"vn": "người tiêu dùng", "jp": "消費者"}, {"vn": "hay không", "jp": "〜かどうか"}, {"vn": "hãy thử", "jp": "試してみてください"}, {"vn": "tìm", "jp": "探す"}, {"vn": "biểu tượng", "jp": "シンボル・マーク"}, {"vn": "toàn cầu", "jp": "世界全体・グローバル"}, {"vn": "bao bì", "jp": "パッケージ・包装"}, {"vn": "xem xét", "jp": "検討する・確認する"}, {"vn": "danh sách", "jp": "リスト"}, {"vn": "bước", "jp": "ステップ・手順"}, {"vn": "dễ dàng", "jp": "簡単な"}, {"vn": "gìn giữ", "jp": "守り続ける"}, {"vn": "tươi đẹp", "jp": "美しい・豊か"}, {"vn": "thế hệ sau", "jp": "次の世代・後世"}, {"vn": "lược bỏ", "jp": "省略"}, {"vn": "quá trình", "jp": "プロセス・過程"}, {"vn": "mức độ", "jp": "程度・レベル"}, {"vn": "phương hướng", "jp": "方向性"}, {"vn": "thói quen", "jp": "習慣"}, {"vn": "hơn nữa", "jp": "さらに・その上"}, {"vn": "chủ yếu", "jp": "主に・主として"}, {"vn": "vì vậy", "jp": "そのため・だから"}, {"vn": "mặt khác", "jp": "一方・他方"}, {"vn": "những", "jp": "〜たち（複数マーカー）"}, {"vn": "các", "jp": "〜全員・〜全体（複数マーカー）"}, {"vn": "một trong những", "jp": "〜のうちのひとつ"}, {"vn": "nhà văn", "jp": "作家・小説家"}, {"vn": "nổi tiếng", "jp": "有名な"}, {"vn": "người Anh", "jp": "イギリス人"}, {"vn": "tác giả", "jp": "著者・作者"}, {"vn": "bộ truyện", "jp": "作品シリーズ・物語"}, {"vn": "tập", "jp": "巻・冊"}, {"vn": "bán được", "jp": "売れた"}, {"vn": "hơn", "jp": "〜以上・〜より多い"}, {"vn": "triệu", "jp": "百万"}, {"vn": "bản", "jp": "部・冊（出版物の単位）"}, {"vn": "được dịch", "jp": "翻訳された"}, {"vn": "nguyên bản", "jp": "原本・原著"}, {"vn": "khoảng", "jp": "約・およそ"}, {"vn": "thứ tiếng", "jp": "〜言語"}, {"vn": "tuổi đời", "jp": "年齢・人生の年数"}, {"vn": "còn", "jp": "まだ"}, {"vn": "khá", "jp": "かなり・相当"}, {"vn": "trẻ", "jp": "若い"}, {"vn": "theo", "jp": "〜によると"}, {"vn": "ước tính", "jp": "推定・見積もり"}, {"vn": "sở hữu", "jp": "所有する"}, {"vn": "khối tài sản", "jp": "資産"}, {"vn": "tỷ", "jp": "十億"}, {"vn": "từ khi", "jp": "〜のときから"}, {"vn": "còn nhỏ", "jp": "まだ小さい・子供の頃"}, {"vn": "luôn", "jp": "いつも・常に"}, {"vn": "muốn", "jp": "〜したい"}, {"vn": "trường tiểu học", "jp": "小学校"}, {"vn": "không bao giờ", "jp": "一度も〜ない"}, {"vn": "tập trung", "jp": "集中する"}, {"vn": "giờ học", "jp": "授業時間"}, {"vn": "thay vì", "jp": "〜の代わりに"}, {"vn": "nghe giảng", "jp": "講義を聞く"}, {"vn": "sáng tác", "jp": "創作する・物語を作る"}, {"vn": "việc này", "jp": "このこと"}, {"vn": "khiến", "jp": "〜させる・〜という結果になる"}, {"vn": "thường xuyên", "jp": "しょっちゅう・頻繁に"}, {"vn": "bị", "jp": "〜される（受け身・否定的）"}, {"vn": "giáo viên", "jp": "教師・先生"}, {"vn": "mắng", "jp": "叱る"}, {"vn": "tâm sự", "jp": "打ち明ける・本音を語る"}, {"vn": "như sau", "jp": "以下のように"}, {"vn": "sự thành công", "jp": "成功"}, {"vn": "tự do", "jp": "自由"}, {"vn": "thanh toán", "jp": "支払う"}, {"vn": "tất cả", "jp": "すべて"}, {"vn": "hóa đơn", "jp": "請求書・領収書"}, {"vn": "không cần phải", "jp": "〜する必要がない"}, {"vn": "lo lắng", "jp": "心配する"}, {"vn": "chuyện tiền bạc", "jp": "お金のこと"}, {"vn": "thích viết", "jp": "書くのが好き"}, {"vn": "đòi hỏi", "jp": "要求する"}, {"vn": "trách nhiệm", "jp": "責任"}, {"vn": "kinh doanh", "jp": "ビジネス・経営"}, {"vn": "điều này", "jp": "このこと"}, {"vn": "còn lại", "jp": "残る"}, {"vn": "ít", "jp": "少ない"}, {"vn": "bản thân", "jp": "自分自身"}, {"vn": "từng", "jp": "かつて・〜したことがある"}, {"vn": "sự thất bại", "jp": "失敗"}, {"vn": "không thể", "jp": "〜できない"}, {"vn": "sống", "jp": "生きる"}, {"vn": "xu hướng", "jp": "傾向"}, {"vn": "ăn kiêng", "jp": "ダイエットする"}, {"vn": "trở thành", "jp": "〜になる"}, {"vn": "dự thi", "jp": "試験を受ける"}, {"vn": "mục đích", "jp": "目的"}, {"vn": "từng thử", "jp": "かつて試みた"}, {"vn": "dịch", "jp": "翻訳する"}, {"vn": "ngôn ngữ", "jp": "言語"}, {"vn": "mượn", "jp": "借りる"}, {"vn": "học sinh", "jp": "学生・生徒"}, {"vn": "đang", "jp": "〜している（進行中）"}, {"vn": "làm việc", "jp": "働く・仕事する"}, {"vn": "phòng", "jp": "部署・部屋"}, {"vn": "chăm sóc", "jp": "世話をする・ケアする"}, {"vn": "khách hàng", "jp": "顧客・お客様"}, {"vn": "khách sạn", "jp": "ホテル"}, {"vn": "trước đây", "jp": "以前・かつて"}, {"vn": "bộ phận", "jp": "部門・部署"}, {"vn": "lễ tân", "jp": "フロント・受付"}, {"vn": "trong", "jp": "〜の間"}, {"vn": "rồi", "jp": "そして・それから"}, {"vn": "quản lý", "jp": "管理する・マネージャー"}, {"vn": "nhà hàng", "jp": "レストラン"}, {"vn": "ngày", "jp": "日"}, {"vn": "nghỉ", "jp": "休む"}, {"vn": "nằm ở", "jp": "位置している・ある"}, {"vn": "gần", "jp": "近い・近くに"}, {"vn": "phố cổ", "jp": "旧市街"}, {"vn": "thỉnh thoảng", "jp": "時々・たまに"}, {"vn": "mỗi khi", "jp": "〜するたびに・毎回"}, {"vn": "đến", "jp": "来る・着く"}, {"vn": "chỗ làm", "jp": "職場"}, {"vn": "nhận được", "jp": "受け取る・もらう"}, {"vn": "khá nhiều", "jp": "かなり多くの"}, {"vn": "lời phàn nàn", "jp": "クレーム・苦情"}, {"vn": "từ", "jp": "〜から"}, {"vn": "du khách", "jp": "旅行者・観光客"}, {"vn": "họ", "jp": "彼ら・彼女ら"}, {"vn": "gặp vấn đề", "jp": "問題に遭遇する"}, {"vn": "về", "jp": "〜について"}, {"vn": "đặt phòng", "jp": "部屋を予約する"}, {"vn": "hoặc", "jp": "または"}, {"vn": "phải", "jp": "〜しなければならない"}, {"vn": "dành", "jp": "費やす・あてる"}, {"vn": "nhiều", "jp": "多い・たくさん"}, {"vn": "nói chuyện", "jp": "話す・会話する"}, {"vn": "vị khách", "jp": "お客様（敬称）"}, {"vn": "cố gắng", "jp": "努力する・頑張る"}, {"vn": "giải quyết", "jp": "解決する"}, {"vn": "các vấn đề", "jp": "問題（複数）"}, {"vn": "đưa ra", "jp": "提示する・出す"}, {"vn": "lời khuyên", "jp": "アドバイス・助言"}, {"vn": "làm theo", "jp": "従う・〜に従ってやる"}, {"vn": "đúng", "jp": "正しく・きちんと"}, {"vn": "yêu cầu", "jp": "要求・要件"}, {"vn": "thấy", "jp": "〜と感じる・思う"}, {"vn": "của mình", "jp": "自分の"}, {"vn": "cho cả", "jp": "〜にとっても"}, {"vn": "cho dù", "jp": "たとえ〜でも"}, {"vn": "to tiếng", "jp": "大声を出す・怒鳴る"}, {"vn": "thái độ", "jp": "態度"}, {"vn": "không hợp tác", "jp": "非協力的な"}, {"vn": "học thêm", "jp": "追加で勉強する・補習する"}, {"vn": "buổi tối", "jp": "夜・夕方"}, {"vn": "trong tuần", "jp": "週に"}, {"vn": "năm sau", "jp": "来年"}, {"vn": "sẽ", "jp": "〜するだろう（未来）"}, {"vn": "chuyển sang", "jp": "〜に移る・転換する"}, {"vn": "phòng kinh doanh", "jp": "営業部署"}, {"vn": "từ gần nghĩa nhất", "jp": "最も意味が近い言葉"}, {"vn": "tinh thần", "jp": "精神・スピリット"}, {"vn": "nỗ lực", "jp": "努力する・尽力する"}, {"vn": "vai trò", "jp": "役割"}, {"vn": "dũng khí", "jp": "勇気"}, {"vn": "im lặng", "jp": "黙る・沈黙する"}, {"vn": "tiếp tục", "jp": "続ける"}, {"vn": "vẫn", "jp": "それでも・やはり"}, {"vn": "bình tĩnh", "jp": "冷静な・落ち着いた"}, {"vn": "giải pháp", "jp": "解決策"}, {"vn": "phù hợp", "jp": "適切な・合った"}, {"vn": "tỏ ra", "jp": "〜のふりをする・見せる"}, {"vn": "ý kiến", "jp": "意見"}, {"vn": "câu nào", "jp": "どの文"}, {"vn": "đúng với", "jp": "〜と一致する・正しい"}, {"vn": "bài đọc", "jp": "読み物・文章"}, {"vn": "bận", "jp": "忙しい"}, {"vn": "hay phải", "jp": "よく〜しなければならない"}, {"vn": "làm thêm giờ", "jp": "残業する"}, {"vn": "kế toán", "jp": "経理・会計"}, {"vn": "phàn nàn", "jp": "苦情を言う・クレームする"}, {"vn": "mất nhiều thời gian", "jp": "多くの時間がかかる"}, {"vn": "với", "jp": "〜で・〜と"}, {"vn": "trọng lượng", "jp": "重量・重さ"}, {"vn": "chỉ", "jp": "〜だけ・〜にすぎない"}, {"vn": "nặng", "jp": "重い"}, {"vn": "hơn một chút", "jp": "少しだけ多い・わずかに"}, {"vn": "so với", "jp": "〜と比べて"}, {"vn": "cây tăm", "jp": "爪楊枝"}, {"vn": "kỹ sư", "jp": "エンジニア"}, {"vn": "tại", "jp": "〜において・〜で"}, {"vn": "đại học", "jp": "大学"}, {"vn": "tạo ra", "jp": "作り出す・生み出す"}, {"vn": "bước đột phá", "jp": "ブレークスルー・画期的な一歩"}, {"vn": "mới", "jp": "新しい"}, {"vn": "việc", "jp": "こと・作業"}, {"vn": "chế tạo", "jp": "製造する・作る"}, {"vn": "robot siêu nhỏ", "jp": "超小型ロボット"}, {"vn": "tên", "jp": "名前"}, {"vn": "loại", "jp": "種類・タイプ"}, {"vn": "đặc biệt", "jp": "特別な"}, {"vn": "được giới thiệu", "jp": "紹介された"}, {"vn": "đúng như", "jp": "〜のとおり"}, {"vn": "tên gọi", "jp": "名前・呼び名"}, {"vn": "bay", "jp": "飛ぶ"}, {"vn": "được", "jp": "〜できる（可能）"}, {"vn": "mặc dù", "jp": "〜にもかかわらず"}, {"vn": "hiện tại", "jp": "現在"}, {"vn": "nó", "jp": "それ（物）"}, {"vn": "bay lên", "jp": "飛び上がる"}, {"vn": "hạ xuống", "jp": "降下する"}, {"vn": "đơn giản", "jp": "単純な・シンプルな"}, {"vn": "chưa thể", "jp": "まだ〜できない"}, {"vn": "bay vòng quanh", "jp": "旋回する・周回飛行する"}, {"vn": "đường bay", "jp": "飛行ルート"}, {"vn": "nhà khoa học", "jp": "科学者"}, {"vn": "cho biết", "jp": "知らせる・伝える"}, {"vn": "khả năng", "jp": "能力・可能性"}, {"vn": "sớm", "jp": "早く・すぐに"}, {"vn": "được phát triển", "jp": "開発される"}, {"vn": "thời gian tới", "jp": "近い将来"}, {"vn": "trước đó", "jp": "それ以前・以前"}, {"vn": "một số", "jp": "いくつかの"}, {"vn": "côn trùng", "jp": "昆虫"}, {"vn": "đã từng", "jp": "かつて〜したことがある"}, {"vn": "xuất hiện", "jp": "登場する・現れる"}, {"vn": "cho đến khi", "jp": "〜するまで"}, {"vn": "chưa có", "jp": "まだない"}, {"vn": "yếu tố", "jp": "要因・要素"}, {"vn": "dẫn đến", "jp": "〜につながる・〜を招く"}, {"vn": "do", "jp": "〜のため・〜が原因で"}, {"vn": "sức nặng", "jp": "重さ・重量"}, {"vn": "dây dẫn", "jp": "導線・ワイヤー"}, {"vn": "bộ cánh", "jp": "翼のセット・羽根部分"}, {"vn": "khắc phục", "jp": "克服する・解決する"}, {"vn": "điểm này", "jp": "この点"}, {"vn": "người ta", "jp": "人々・彼ら（一般的な人）"}, {"vn": "áp dụng", "jp": "適用する・応用する"}, {"vn": "công nghệ", "jp": "技術・テクノロジー"}, {"vn": "chuyển đổi", "jp": "変換する・転換する"}, {"vn": "năng lượng", "jp": "エネルギー"}, {"vn": "tia laser", "jp": "レーザー光線"}, {"vn": "điện năng", "jp": "電気エネルギー"}, {"vn": "hai cánh", "jp": "二枚の翼"}, {"vn": "đây chính là", "jp": "まさにこれが〜だ"}, {"vn": "giảm được", "jp": "減らすことができた"}, {"vn": "khi bay lên", "jp": "飛び上がるとき"}, {"vn": "khái niệm", "jp": "概念・コンセプト"}, {"vn": "kết nối", "jp": "接続する・つなぐ"}, {"vn": "không dây", "jp": "ワイヤレス・無線"}, {"vn": "dường như", "jp": "〜のようだ・まるで"}, {"vn": "bộ phim khoa học", "jp": "SF映画"}, {"vn": "tuy nhiên", "jp": "しかし・それにもかかわらず"}, {"vn": "đã làm được", "jp": "実現できた・やり遂げた"}, {"vn": "hoàn thiện", "jp": "完成させる・完璧にする"}, {"vn": "hoàn toàn", "jp": "完全に・全く"}, {"vn": "tính năng", "jp": "機能・特性"}, {"vn": "giúp", "jp": "助ける・〜できるようにする"}, {"vn": "xâm nhập", "jp": "侵入する・入り込む"}, {"vn": "khu vực", "jp": "区域・エリア"}, {"vn": "thiết bị bay", "jp": "飛行機器・飛行装置"}, {"vn": "lớn hơn", "jp": "より大きな"}, {"vn": "phó giáo sư", "jp": "准教授"}, {"vn": "thành viên", "jp": "メンバー・一員"}, {"vn": "nhóm", "jp": "チーム・グループ"}, {"vn": "phát triển", "jp": "開発する・発展させる"}, {"vn": "ông", "jp": "彼（年上男性への敬称）"}, {"vn": "phát triển tiếp", "jp": "引き続き開発する"}, {"vn": "hệ thống", "jp": "システム"}, {"vn": "cảm biến", "jp": "センサー"}, {"vn": "thông minh hơn", "jp": "よりスマートな"}, {"vn": "tự", "jp": "自分で・自動的に"}, {"vn": "điều chỉnh", "jp": "調整する"}, {"vn": "hướng bay", "jp": "飛行方向"}, {"vn": "dễ dàng hơn", "jp": "より簡単に"}, {"vn": "vẫn sẽ", "jp": "それでも〜するだろう"}, {"vn": "đưa vào", "jp": "〜に導入する・取り入れる"}, {"vn": "ứng dụng", "jp": "応用する・活用する"}, {"vn": "cuộc sống", "jp": "生活・日常生活"}, {"vn": "kích thước", "jp": "サイズ・大きさ"}, {"vn": "hiện đại", "jp": "現代的な・先進的な"}, {"vn": "giá thành sản xuất", "jp": "製造コスト"}, {"vn": "rẻ hơn nhiều", "jp": "はるかに安い"}, {"vn": "máy bay không người lái", "jp": "無人飛行機・ドローン"}, {"vn": "ưu thế", "jp": "優位性・アドバンテージ"}, {"vn": "khác", "jp": "他の・別の"}, {"vn": "điểm", "jp": "点・ポイント"}, {"vn": "giá", "jp": "価格"}, {"vn": "đắt", "jp": "高い（値段）"}, {"vn": "dễ bị hỏng", "jp": "壊れやすい"}, {"vn": "tức là", "jp": "つまり・すなわち"}, {"vn": "đồng thời", "jp": "同時に・また"}, {"vn": "ngược lại", "jp": "反対に・逆に"}, {"vn": "nhà cao tầng", "jp": "高層ビル"}, {"vn": "tìm kiếm", "jp": "探す・捜索する"}, {"vn": "đầu tiên", "jp": "最初の"}, {"vn": "chiếc bút bi", "jp": "ボールペン"}, {"vn": "nặng hơn", "jp": "より重い"}];
+
+let deck=[...ALL_DATA], idx=0, flipped=false;
+let shuffled=false, jpFirst=false, unknownOnly=false;
+let knownSet=new Set(), unknownSet=new Set();
+let mode='flash';
+let quizCorrect=0, quizWrong=0, quizAnswered=false;
+let quizIdx=0, quizDeck=[];
+
+// PWA Install
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt', e=>{
+  e.preventDefault(); deferredPrompt=e;
+  document.getElementById('installBanner').style.display='flex';
+});
+document.getElementById('installBtn').addEventListener('click', async()=>{
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const choice = await deferredPrompt.userChoice;
+  deferredPrompt=null;
+  document.getElementById('installBanner').style.display='none';
+});
+window.addEventListener('appinstalled',()=>{
+  document.getElementById('installBanner').style.display='none';
+});
+
+// iOS hint
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone = window.navigator.standalone;
+if(isIOS && !isStandalone){
+  const b = document.getElementById('installBanner');
+  b.style.display='flex';
+  b.querySelector('span').textContent='📱 Safariで「共有」→「ホーム画面に追加」でアプリ化できます';
+  b.querySelector('#installBtn').style.display='none';
+}
+
+// Swipe
+let touchStartX=0, touchStartY=0;
+const cardArea = document.getElementById('cardArea');
+cardArea.addEventListener('touchstart', e=>{
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, {passive:true});
+cardArea.addEventListener('touchend', e=>{
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)*1.5){
+    e.preventDefault();
+    if(dx<0) nextCard(); else prevCard();
+  }
+});
+
+function getActiveDeck(){
+  if(unknownOnly && unknownSet.size>0){
+    return ALL_DATA.filter((_,i)=>unknownSet.has(i));
+  }
+  return [...ALL_DATA];
+}
+
+function rebuildDeck(){
+  let base=getActiveDeck();
+  if(shuffled){
+    for(let i=base.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [base[i],base[j]]=[base[j],base[i]];
+    }
+  }
+  deck=base; idx=0; flipped=false;
+  updateCard();
+}
+
+function updateCard(){
+  if(!deck.length) return;
+  const item=deck[idx];
+  document.getElementById('totalCount').textContent=ALL_DATA.length;
+  document.getElementById('setCount').textContent=deck.length;
+  document.getElementById('posStr').textContent=idx+1;
+  document.getElementById('progressBar').style.width=((idx+1)/deck.length*100)+'%';
+  document.getElementById('vnWord').textContent=jpFirst?item.jp:item.vn;
+  document.getElementById('jpMeaning').textContent=jpFirst?item.vn:item.jp;
+  document.getElementById('card').classList.remove('flipped');
+  flipped=false;
+  document.getElementById('markBtns').style.display='none';
+  document.getElementById('knownCount').textContent=knownSet.size;
+  document.getElementById('unknownCount').textContent=unknownSet.size;
+}
+
+function flipCard(){
+  const card=document.getElementById('card');
+  flipped=!flipped;
+  card.classList.toggle('flipped',flipped);
+  document.getElementById('markBtns').style.display=flipped?'flex':'none';
+}
+
+function nextCard(){ idx=(idx+1)%deck.length; updateCard(); }
+function prevCard(){ idx=(idx-1+deck.length)%deck.length; updateCard(); }
+
+function markCard(known){
+  const origIdx=ALL_DATA.indexOf(deck[idx]);
+  if(known){ knownSet.add(origIdx); unknownSet.delete(origIdx); }
+  else{ unknownSet.add(origIdx); knownSet.delete(origIdx); }
+  nextCard();
+}
+
+function toggleShuffle(){
+  shuffled=!shuffled;
+  document.getElementById('btnShuffle').classList.toggle('active',shuffled);
+  rebuildDeck(); if(mode==='quiz') startQuiz();
+}
+function toggleJpFirst(){
+  jpFirst=!jpFirst;
+  document.getElementById('btnJpFirst').classList.toggle('active',jpFirst);
+  updateCard(); if(mode==='quiz') startQuiz();
+}
+function toggleUnknownOnly(){
+  unknownOnly=!unknownOnly;
+  document.getElementById('btnUnknownOnly').classList.toggle('active',unknownOnly);
+  rebuildDeck(); if(mode==='quiz') startQuiz();
+}
+function resetAll(){
+  knownSet.clear(); unknownSet.clear();
+  quizCorrect=0; quizWrong=0;
+  rebuildDeck(); if(mode==='quiz') startQuiz();
+}
+
+function setMode(m){
+  mode=m;
+  document.querySelectorAll('.mode-tab').forEach((t,i)=>{
+    t.classList.toggle('active',(i===0&&m==='flash')||(i===1&&m==='quiz'));
+  });
+  document.getElementById('flashMode').style.display=m==='flash'?'':'none';
+  document.getElementById('quizMode').style.display=m==='quiz'?'':'none';
+  if(m==='quiz') startQuiz();
+}
+
+function startQuiz(){
+  quizCorrect=0; quizWrong=0;
+  quizDeck=getActiveDeck();
+  if(shuffled){
+    for(let i=quizDeck.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [quizDeck[i],quizDeck[j]]=[quizDeck[j],quizDeck[i]];
+    }
+  }
+  quizIdx=0; showQuizCard();
+}
+
+function showQuizCard(){
+  quizAnswered=false;
+  if(quizIdx>=quizDeck.length){
+    document.getElementById('quizChoices').innerHTML=`<div class="complete-msg">🎉 完了！<br>正解率: ${quizCorrect}/${quizDeck.length}</div>`;
+    document.getElementById('quizVn').textContent='終了';
+    return;
+  }
+  const item=quizDeck[quizIdx];
+  document.getElementById('quizVn').textContent=jpFirst?item.jp:item.vn;
+  document.getElementById('quizProgress').style.width=((quizIdx+1)/quizDeck.length*100)+'%';
+  document.getElementById('posStr').textContent=quizIdx+1;
+  document.getElementById('setCount').textContent=quizDeck.length;
+  document.getElementById('quizCorrect').textContent=quizCorrect;
+  document.getElementById('quizWrong').textContent=quizWrong;
+  let others=ALL_DATA.filter(d=>d!==item), wrong=[];
+  while(wrong.length<3){
+    const r=others[Math.floor(Math.random()*others.length)];
+    if(!wrong.includes(r)) wrong.push(r);
+  }
+  let choices=[...wrong,item].sort(()=>Math.random()-.5);
+  const container=document.getElementById('quizChoices');
+  container.innerHTML='';
+  choices.forEach(c=>{
+    const btn=document.createElement('button');
+    btn.className='choice-btn';
+    btn.textContent=jpFirst?c.vn:c.jp;
+    btn.onclick=()=>checkAnswer(btn,c===item,container);
+    container.appendChild(btn);
+  });
+}
+
+function checkAnswer(btn,isCorrect,container){
+  if(quizAnswered) return;
+  quizAnswered=true;
+  const correctText=jpFirst?quizDeck[quizIdx].vn:quizDeck[quizIdx].jp;
+  if(isCorrect){ btn.classList.add('correct'); quizCorrect++; }
+  else{
+    btn.classList.add('wrong');
+    container.querySelectorAll('.choice-btn').forEach(b=>{
+      if(b.textContent===correctText) b.classList.add('correct');
+    });
+    quizWrong++;
+  }
+  container.querySelectorAll('.choice-btn').forEach(b=>b.disabled=true);
+  document.getElementById('quizCorrect').textContent=quizCorrect;
+  document.getElementById('quizWrong').textContent=quizWrong;
+  setTimeout(()=>{ quizIdx++; showQuizCard(); },900);
+}
+
+rebuildDeck();
+</script>
+</body>
+</html>
